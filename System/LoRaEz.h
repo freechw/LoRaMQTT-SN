@@ -21,6 +21,7 @@
 #include "Payload.h"
 #include "Peripheral.h"
 #include "utilities.h"
+#include "MQTTSNDefines.h"
 
 
 #endif /* _LORAEZ_H_ */
