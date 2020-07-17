@@ -42,6 +42,8 @@ void LoRaLinkInitialize(void);
 /*!
  * Setup Device Parameters
  *
+ * \param [IN] key      Encription key
+ * \param [IN] panId    Pan ID
  * \param [IN] devTxCh  Uplink   channel
  * \param [IN] devRxCh  Downlink channel
  * \param [IN] sfValue  Spreading Factor
@@ -52,6 +54,8 @@ LoRaLinkStatus_t LoRaLinkDeviceInit( uint8_t* key, uint16_t panId, uint8_t devAd
 /*!
  * Gateway Modem Process
  *
+ * \param [IN] key      Encription key
+ * \param [IN] panId    Pan ID
  * \param [IN] devTxCh  Uplink   channel
  * \param [IN] devRxCh  Downlink channel
  * \param [IN] sfValue  Spreading Factor
@@ -67,6 +71,8 @@ LoRaLinkStatus_t LoRaLinkRecvPacket(LoRaLinkPacket_t* pkt, uint32_t timeout);
  *
  */
 LoRaLinkStatus_t LoRaLinkSend( uint8_t destAddr, uint8_t payloadType, uint8_t* buffer, uint8_t buffLen, uint32_t timeout );
+
+
 /*!
  *
  */
