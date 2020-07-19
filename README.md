@@ -50,3 +50,5 @@ https://www.st.com/en/development-tools/stm32cubeprog.html
 ## Sensor Network Application layer protocol
 This protocol is handled in loralink/SensorNetwork.cpp
 ![LoRaLinkApi](https://user-images.githubusercontent.com/7830788/87870157-86d22e00-c9e0-11ea-8c3d-b472a2dff25a.png)
+### Required devices
+![LoRaMQTT](https://user-images.githubusercontent.com/7830788/87870330-c2b9c300-c9e1-11ea-99a8-c8dc6585aa33.png)
