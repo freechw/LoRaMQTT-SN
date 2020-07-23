@@ -7,14 +7,14 @@
 #include "commission.h"
 #include "LoRaEz.h"
 
+#if defined( CLIENT )
 
-#ifdef CLIENT
-
+#ifndef DUMMY
 MQTTSNConf_t conf =
 {
 	"cl",           //Prefix of ClientId
 	180,          //KeepAlive (seconds)
-	true,           //Clean session
+	false,           //Clean session
 	"",    //WillTopic
 	"",  //WillMessage
 	QOS_0,          //WillQos
@@ -37,6 +37,7 @@ void start(void)
 
 	LoRaLinkDeviceInit( CRYPTO_KEY, PANID, 0x04, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
 	MQTTSNClientInit( &conf );
+	Connect();
 }
 
 void task1( void )
@@ -44,9 +45,10 @@ void task1( void )
 	printf( "Task1 start\r\n");
 	Payload_t pl;
 	ClearPayload( &pl );
-	SetRowdataToPayload( &pl, rowdata2, 10 );
+	SetRowdataToPayload( &pl, rowdata2, 5 );
 
 	PublishByName( topic3, &pl, QOS_1, retain );
+	Disconnect(0);
 	printf( "Task1 end\r\n");
 }
 
@@ -59,6 +61,12 @@ TASK_LIST =
 void on_publish( Payload_t* payload )
 {
 	printf( "on publish\r\n" );
+
+	for ( int i = 0; i < GetRowdataLength(payload); i++ )
+	{
+		printf( "%0X ", GetUint8(payload) );
+	}
+	printf("\r\n");
 }
 
 
@@ -70,29 +78,23 @@ SUBSCRIBE_LIST =  // { topic, callback, QOS_0 - QOS_2 },
 
 	END_OF_SUBSCRIBE_LIST
 };
-
 #endif
 
-#ifdef  RXMODEM
+#elif defined( RXMODEM ) || defined( TXMODEM )
+
 
 void start(void)
 {
 	SetUartBaudrate(115200);
 
-	LoRaLinkUartType_t type = LORALINK_UART_RX;
-	LoRaLinkUart( CRYPTO_KEY, PANID, UART_DEVADDR, type, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
-}
+#if defined( RXMODEM )
+	LoRaLinkUart( CRYPTO_KEY, PANID, UART_DEVADDR, LORALINK_UART_RX, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
 
+#else
+	LoRaLinkUart( CRYPTO_KEY, PANID, UART_DEVADDR, LORALINK_UART_TX, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
 #endif
-
-#ifdef  TXMODEM
-
-void start(void)
-{
-	SetUartBaudrate(115200);
-
-	LoRaLinkUartType_t type = LORALINK_UART_TX;
-	LoRaLinkUart( CRYPTO_KEY, PANID, UART_DEVADDR, type, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
 }
+#else
 
+#error  "TYPE=CLIENT or TYPE=RXMODEM or TYPE=TXMODEM is required."
 #endif
