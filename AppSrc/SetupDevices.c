@@ -12,13 +12,13 @@
 #ifndef DUMMY
 MQTTSNConf_t conf =
 {
-	"cl",           //Prefix of ClientId
-	180,          //KeepAlive (seconds)
-	false,           //Clean session
-	"",    //WillTopic
-	"",  //WillMessage
-	QOS_0,          //WillQos
-	false           //WillRetain
+	"cl",          //Prefix of ClientId
+	180,           //KeepAlive (seconds)
+	false,         //Clean session
+	"",            //WillTopic
+	"",            //WillMessage
+	QOS_0,         //WillQos
+	false          //WillRetain
 };
 
 uint8_t topic1[] = "test1";
@@ -37,7 +37,6 @@ void start(void)
 
 	LoRaLinkDeviceInit( CRYPTO_KEY, PANID, 0x04, SYNCWORD, UPLINK_CH, DWNLINK_CH, SF_VALUE, POWER_IN_DBM );
 	MQTTSNClientInit( &conf );
-	Connect();
 }
 
 void task1( void )
