@@ -62,13 +62,24 @@ LoRaLinkStatus_t LoRaLinkDeviceInit( uint8_t* key, uint16_t panId, uint8_t devAd
  * \param [IN] power    Output power in dBm
  * \retval value    LoRaLinkStatus
  */
-LoRaLinkStatus_t LoRaLinkUart( uint8_t* key, uint16_t panId, uint8_t devAddr, LoRaLinkUartType_t devType, uint8_t syncWord, uint8_t devTxCh, uint8_t devRxCh, LoRaLinkSf_t sfValue, int8_t power  );
+LoRaLinkStatus_t LoRaLinkUart( uint8_t* key, uint16_t panId, uint8_t devAddr, LoRaLinkUartType_t devType, uint8_t syncWord, uint8_t devTxCh, uint8_t devRxCh, LoRaLinkSf_t sfValue );
 /*!
+ * Receive LoRaLink Packet
  *
+ * \param [OUT] pkt Received packet pointer
+ * \param [IN]  timeout  Receive time out value in ms
+ * \retval value    LoRaLinkStatus
  */
 LoRaLinkStatus_t LoRaLinkRecvPacket(LoRaLinkPacket_t* pkt, uint32_t timeout);
 /*!
+ * Send Payload
  *
+ * \param [IN] destAddr     Destination address
+ * \param [IN] payloadType  Payload Type
+ * \param [IN] buffer       Payload data pointer
+ * \param [IN] buffLen      Payload length
+ * \param [IN] timeout      Send time out value in ms
+ * \retval value    LoRaLinkStatus
  */
 LoRaLinkStatus_t LoRaLinkSend( uint8_t destAddr, uint8_t payloadType, uint8_t* buffer, uint8_t buffLen, uint32_t timeout );
 
