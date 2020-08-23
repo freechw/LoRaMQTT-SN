@@ -17,11 +17,14 @@
 #include "systime.h"
 #include "device-config.h"
 #include "LoRaLink.h"
+#include "LoRaLinkApi.h"
+#include "MQTTSNClient.h"
+#include "MQTTSNDefines.h"
+#include "MQTTSNPublish.h"
 #include "LoRaLinkCrypto.h"
 #include "Payload.h"
 #include "Peripheral.h"
 #include "utilities.h"
-#include "MQTTSNDefines.h"
 
 
 #endif /* _LORAEZ_H_ */
