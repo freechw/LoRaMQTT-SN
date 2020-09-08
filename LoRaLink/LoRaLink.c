@@ -135,6 +135,17 @@ void LoRaLinkSetDeviceAddr(uint8_t addr)
 	LoRaLinkCtx.LoRaLinkDeviceAddr = addr;
 }
 
+int16_t LoRaLinkGetRssi( void )
+{
+	return RxDoneParams.Rssi;
+}
+
+int8_t LoRaLinkGetSnr( void )
+{
+	return RxDoneParams.Snr;
+}
+
+
 void LoRaLinkInitilize(void)
 {
 	LoRaLinkRadioEvents.TxDone = OnRadioTxDone;
@@ -478,6 +489,8 @@ LoRaLinkStatus_t LoRaLinkRecvPacket( LoRaLinkPacket_t* pkt, uint32_t timeout )
 			pkt->FRMPayloadType = LoRaLinkPacket.FRMPayloadType;
 			pkt->FRMPayloadSize = LoRaLinkPacket.FRMPayloadSize;
 			pkt->FRMPayload = LoRaLinkPacket.FRMPayload;
+
+			DLOG( "\033[32mRssi:%d Snr:%d\n", (int16_t)LoRaLinkPacket.Rssi, (int8_t)LoRaLinkPacket.Snr );
 			return LORALINK_STATUS_OK;
 
 		case DEVICE_STATE_RX_TIMEOUT:
@@ -568,7 +581,7 @@ static bool scheduleTx( void )
 	{
 		DeviceStatus = DEVICE_STATE_CYCLE;
 	}
-	else if ( SX1276IsChannelFree( MODEM_FSK, LoRaLinkCtx.TxConfig.Frequency, LORALINK_RSSI_THRESH, LORALINK_MAX_CARRIERSENSE_TIME ) == true )
+	else if ( SX1276IsChannelFree( LoRaLinkCtx.TxConfig.Frequency, LORALINK_RSSI_THRESH, LORALINK_MAX_CARRIERSENSE_TIME ) == true )
 	{
 		SetTxConfig( &LoRaLinkCtx.TxConfig, &LoRaLinkCtx.TxTimeOnAir );
 		SX1276Send( LoRaLinkCtx.PktBuffer,  LoRaLinkCtx.PktBufferLen );

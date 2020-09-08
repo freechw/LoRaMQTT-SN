@@ -65,6 +65,7 @@ TASK_LIST =
 void on_publish( Payload_t* payload )
 {
 	printf( "on publish\r\n" );
+	printf( "Rssi : %d Snr : %d\r\n", GetRssi(), GetSnr() );
 
 	for ( int i = 0; i < GetRowdataLength(payload); i++ )
 	{
